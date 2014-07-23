@@ -40,6 +40,18 @@ describe("About Applying What We Have Learnt", function() {
       var productsICanEat = [];
 
       /* solve using filter() & all() / any() */
+      productsICanEat = products.filter(function(n) {
+        if(n.containsNuts){
+          return false;
+          for(var i = 0; i < n.ingredients.length; i++){
+            if(n.ingredients[i] == "mushrooms"){
+              return false;
+            }
+          } 
+        }
+      }); 
+
+      return productsICanEat; 
 
       expect(productsICanEat.length).toBe(1);
   });
@@ -81,15 +93,28 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
+    ingredientCount = _.chain(products)
+    .map(function(x){ return x.ingredients;})
+    .flatten()
+    .reduce(function(sum, ingredient){
+      if(ingredient in sum){
+        sum[ingredient] += 1; 
+      }
+      else{
+        sum[ingredient] = 1;
+      }
+      return sum; 
+    }, {})
+    .value();
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
